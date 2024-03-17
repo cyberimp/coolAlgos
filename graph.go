@@ -4,6 +4,7 @@ package main
 type UnionFind struct {
 	parent []int
 	size   []int
+	count  int
 }
 
 // NewUnionFind creates initialized UnionFind structure
@@ -14,11 +15,11 @@ func NewUnionFind(s int) UnionFind {
 		parent[i] = i
 		size[i] = 1
 	}
-	return UnionFind{parent, size}
+	return UnionFind{parent, size, s}
 }
 
 // Find the root of set
-func (u UnionFind) Find(q int) int {
+func (u *UnionFind) Find(q int) int {
 	for q != u.parent[q] {
 		q = u.parent[q]
 	}
@@ -26,12 +27,12 @@ func (u UnionFind) Find(q int) int {
 }
 
 // Union two sets
-func (u UnionFind) Union(a, b int) UnionFind {
+func (u *UnionFind) Union(a, b int) {
 	rootA := u.Find(a)
 	rootB := u.Find(b)
 
 	if rootA == rootB {
-		return u
+		return
 	}
 
 	if u.size[rootA] < u.size[rootB] {
@@ -41,16 +42,7 @@ func (u UnionFind) Union(a, b int) UnionFind {
 		u.parent[rootB] = rootA
 		u.size[rootA] += u.size[rootB]
 	}
+	u.count--
 
-	return u
-}
-
-func (u UnionFind) Count() int {
-	result := map[int]struct{}{}
-	for _, p := range u.parent {
-		if _, ok := result[p]; !ok {
-			result[p] = struct{}{}
-		}
-	}
-	return len(result)
+	return
 }

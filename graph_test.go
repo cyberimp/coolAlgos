@@ -23,7 +23,7 @@ func TestUnionFind(t *testing.T) {
 						UF.Union(source, target)
 					}
 				}
-				assert.Equal(t, test.expectedUnions, UF.Count(), "Your skills at algo suck!")
+				assert.Equal(t, test.expectedUnions, UF.count, "Your skills at algo suck!")
 			},
 		)
 	}
